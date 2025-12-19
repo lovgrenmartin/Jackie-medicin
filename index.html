@@ -37,7 +37,9 @@
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
@@ -45,9 +47,13 @@
 <body class="bg-[#FFFFFF] min-h-screen text-stone-800">
     <div id="root"></div>
     <script>
+      // Förbättrad registrering av Service Worker för GitHub Pages (hanterar subfolders)
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
+          const swPath = window.location.pathname.includes('Jackie-medicin') 
+            ? '/Jackie-medicin/sw.js' 
+            : './sw.js';
+          navigator.serviceWorker.register(swPath).catch(err => console.log('SW registration failed:', err));
         });
       }
     </script>
