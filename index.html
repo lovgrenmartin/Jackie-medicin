@@ -9,14 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#FFFFFF">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Jackie">
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            background-color: #FFFFFF;
         }
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -31,29 +35,35 @@
             box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.05), inset -4px -4px 8px rgba(255, 255, 255, 0.8);
         }
     </style>
+
 <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@0.462.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
     "vite": "https://esm.sh/vite@^7.3.0",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 </head>
-<body class="bg-[#FFFFFF] min-h-screen text-stone-800">
+<body>
     <div id="root"></div>
+    
+    <!-- Använd ./index.tsx för att säkerställa korrekt relativ sökväg -->
+    <script type="module" src="./index.tsx"></script>
+
     <script>
-      // Förbättrad registrering av Service Worker för GitHub Pages (hanterar subfolders)
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          const swPath = window.location.pathname.includes('Jackie-medicin') 
-            ? '/Jackie-medicin/sw.js' 
-            : './sw.js';
-          navigator.serviceWorker.register(swPath).catch(err => console.log('SW registration failed:', err));
+          // Vi registrerar SW relativt till den nuvarande mappen
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW registrerad på scope:', reg.scope))
+            .catch(err => console.log('SW misslyckades:', err));
         });
       }
     </script>
