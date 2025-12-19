@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { CheckCircle2, XCircle, Pill } from 'lucide-react';
-import { isMedicationDay } from '../utils/medicationLogic';
+import { isMedicationDay } from '../utils/medicationLogic.ts';
 
 interface StatusCardProps {
   date: Date;

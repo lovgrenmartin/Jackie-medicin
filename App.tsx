@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Calendar, Info, Dog, X } from 'lucide-react';
-import StatusCard from './components/StatusCard';
-import CalendarView from './components/CalendarView';
-import { formatDate } from './utils/medicationLogic';
+import StatusCard from './components/StatusCard.tsx';
+import CalendarView from './components/CalendarView.tsx';
+import { formatDate } from './utils/medicationLogic.ts';
 
 const App: React.FC = () => {
   const [showCalendar, setShowCalendar] = useState(false);

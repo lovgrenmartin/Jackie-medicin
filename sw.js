@@ -1,18 +1,19 @@
 
-const CACHE_NAME = 'jackie-v3';
+const CACHE_NAME = 'jackie-v5';
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(clients.claim());
+self.addEventListener('activate', (event) => {
+  event.waitUntil(clients.claim());
 });
 
-self.addEventListener('fetch', (e) => {
-  // Enkel genomströmning för att undvika problem med sandbox-miljöer
-  // som har restriktiva CORS-regler
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+self.addEventListener('fetch', (event) => {
+  // Enkel "pass-through" med fallback till cache om nätverket är nere
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
   );
 });

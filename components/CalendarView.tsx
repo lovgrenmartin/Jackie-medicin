@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { isMedicationDay } from '../utils/medicationLogic';
+import { isMedicationDay } from '../utils/medicationLogic.ts';
 
 interface CalendarViewProps {
   onClose: () => void;

@@ -16,6 +16,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFFFFF">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Jackie">
     
@@ -23,7 +24,7 @@
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #FFFFFF;
+            background-color: #fcfaf8;
         }
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -65,18 +66,25 @@
 <body>
     <div id="root"></div>
     
-    <!-- Ändrat till relativ sökväg för att fungera i alla miljöer -->
     <script type="module" src="./index.tsx"></script>
 
     <script>
+      /**
+       * För att lösa "Origin mismatch"-felet i sandbox-miljöer och på GitHub Pages
+       * använder vi en strikt relativ sökväg för registreringen.
+       */
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          // Använd strikt relativ sökväg för att undvika origin-matchningsfel (SecurityError)
-          // Detta löser problemet där webbläsaren tror att skriptet kommer från ai.studio
-          navigator.serviceWorker.register('./sw.js', { scope: './' })
-            .then(reg => console.log('SW registrerad på scope:', reg.scope))
+          // Genom att bara använda filnamnet registreras den mot den nuvarande origin
+          // oavsett om det är en undermapp eller rotmapp.
+          navigator.serviceWorker.register('sw.js')
+            .then(reg => {
+              console.log('Service Worker registrerad framgångsrikt:', reg.scope);
+            })
             .catch(err => {
-              console.warn('Service Worker-registrering misslyckades (normalt i vissa sandbox-miljöer):', err);
+              // I vissa sandbox-miljöer (som preview i editorn) är SW inte tillåtet, 
+              // vi loggar det som en varning istället för ett fel.
+              console.warn('Service Worker-registrering misslyckades (väntat i vissa miljöer):', err);
             });
         });
       }
