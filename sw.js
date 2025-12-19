@@ -1,25 +1,18 @@
 
-const CACHE_NAME = 'jackie-v1';
-// Vi använder relativa sökvägar (./) för att det ska fungera på GitHub Pages subfolders
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'jackie-v3';
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Cache öppen, lägger till filer...');
-        return cache.addAll(ASSETS);
-      })
-      .catch(err => console.error('Cache addAll misslyckades:', err))
-  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(clients.claim());
 });
 
 self.addEventListener('fetch', (e) => {
+  // Enkel genomströmning för att undvika problem med sandbox-miljöer
+  // som har restriktiva CORS-regler
   e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
